@@ -18,22 +18,31 @@ function adicionarTarefa() {
 
     list.appendChild(novaTarefa)
 
+    txtTar.value = ""
+    txtTar.focus
+
     alert('Tarefa Adicionada à Lista!')
 }
 
 function alterarTarefa(tarefaAntiga) {
     let pos = todasTarefas.indexOf(tarefaAntiga)
-    let tarefaNova = prompt('Qual o nome de sua nova tarefa?')
+    let tarefaNova = prompt('Qual o nome de sua nova tarefa?', tarefaAntiga)
     let tarefaLista = list.getElementsByTagName('li')[pos]
-    let btnLista = tarefaLista.getElementsByTagName('input')[0]
-    btnLista.setAttribute('onclick', `alterarTarefa('${tarefaNova}')`)
+    let btnAlterar = tarefaLista.getElementsByTagName('input')[0]
+    let btnExcluir = tarefaLista.getElementsByTagName('input')[1]
 
-    tarefaLista.getElementsByTagName('p')[0].innerText = tarefaNova
     todasTarefas[pos] = tarefaNova
+    tarefaLista.getElementsByTagName('p')[0].innerText = tarefaNova
+    btnAlterar.setAttribute('onclick', `alterarTarefa('${tarefaNova}')`)
+    btnExcluir.setAttribute('onclick', `excluirTarefa('${tarefaNova}')`)
+    btnAlterar.setAttribute('id', `editar_${tarefaNova}`)
+    btnExcluir.setAttribute('id', `excluir_${tarefaNova}`)
+
+
     alert('Tarefa Alterada com Sucesso!')
 }
 
-function excluirTarefa(tarefa) {/*  */
+function excluirTarefa(tarefa) {
     var op = window.confirm('Você deseja realmente excluir esta tarefa?')
     if (op) {
         let pos = todasTarefas.indexOf(tarefa)
@@ -54,7 +63,7 @@ function criarBotao(funcao, tarefa) {
             novoBotao.setAttribute('value', 'Editar')
             novoBotao.setAttribute('onclick', `alterarTarefa('${tarefa}')`)
             break
-            case 'excluir':
+        case 'excluir':
             novoBotao.setAttribute('id', `excluir_${tarefa}`)
             novoBotao.setAttribute('value', 'Excluir')
             novoBotao.setAttribute('onclick', `excluirTarefa('${tarefa}')`)
